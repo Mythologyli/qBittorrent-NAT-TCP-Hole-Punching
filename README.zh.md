@@ -34,7 +34,7 @@
 
 我们可以利用 [Natter](https://github.com/MikeWang000000/Natter) 或 [NATMap](https://github.com/heiher/natmap) 维持 NAT 映射关系，并得到内部端口对应的外部 IP 地址和端口。这样，如果我们将这个内部端口收到的数据转发到 qBittorrent 正在监听的端口，就可以接收到公网 IPv4 下的其他 Peer 的入站请求。
 
-还有一个问题没有解决：我们应该如何告知 Tracker 我们的公网 IPv4 地址和端口？大多数 Tracker 不需要我们上报 IPv4 地址，他们可以从 TCP 报文中获取到这个地址。但 Tracker 需要我们上报端口，而 qBittorrent 只会去上报他在内部网络上的端口，因为 qBittorrent 不可能知道通过 NAT 映射后的公网端口是什么。因此，此脚本会将 qBittorent 的监听端口修改为与 NAT 映射后的公网端口一致，让 qBittorrent 就会上报正确的端口。此脚本还会设置 iptables 端口转发规则。
+还有一个问题没有解决：我们应该如何告知 Tracker 我们的公网 IPv4 地址和端口？大多数 Tracker 不需要我们上报 IPv4 地址，他们可以从 TCP 报文中获取到这个地址。但 Tracker 需要我们上报端口，而 qBittorrent 只会去上报他在内部网络上的端口，因为 qBittorrent 不可能知道通过 NAT 映射后的公网端口是什么。因此，此脚本会将 qBittorent 的监听端口修改为与 NAT 映射后的公网端口一致，让 qBittorrent 上报正确的端口。此脚本还会设置 iptables 端口转发规则。
 
 总的来说，运行 `sudo ./natmap -s stun.stunprotocol.org -h baidu.com -b 45678 -e ./update.sh` 后，脚本会修改 qBittorrent 的监听端口为与公网端口一致，并设置 iptables 端口转发规则，将 `45678` 端口的数据转发至 qBittorrent 监听端口。如果 NAT 映射关系更新（通常由重新拨号造成），NATMap 会再次触发 `update.sh` 脚本，更新端口并设置 iptables 规则。
 
