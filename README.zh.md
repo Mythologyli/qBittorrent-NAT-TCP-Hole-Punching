@@ -1,5 +1,7 @@
 # qBittorrent NAT TCP 打洞
 
+详细说明请前往[我的博客](https://myth.cx/p/qbittorrent-nat-tcp-hole-punching/)。
+
 利用 [Natter](https://github.com/MikeWang000000/Natter)/[NATMap](https://github.com/heiher/natmap) 在 **Full Cone NAT** 下进行 TCP 打洞，从而使 [qBittorrent](https://www.qbittorrent.org/) 获得近似于公网 IPv4 的体验。
 
 ## 使用条件
