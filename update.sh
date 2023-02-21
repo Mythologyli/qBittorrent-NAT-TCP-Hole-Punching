@@ -18,6 +18,9 @@ curl -X POST -b "$qb_cookie" -d 'json={"listen_port":"'$public_port'"}' "http://
 echo "Update iptables..."
 
 # Use iptables to forward traffic.
+LINE=$(iptables -t nat -nvL --line-number | grep ${private_port} | head -n 1 -)
+LINE_NUMBER=($LINE)
+iptables -t nat -D PREROUTING $LINE_NUMBER
 iptables -t nat -A PREROUTING -p tcp --dport $private_port -j REDIRECT --to-port $public_port
 
 echo "Done."
