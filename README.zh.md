@@ -21,7 +21,7 @@
 3. 编辑 `update.sh`：
 
    + private_port: Natter 填写 $3/NATMap 填写 $4
-   + public_port: Natter 填写 $4/NATMap 填写 $5
+   + public_port: Natter 填写 $5/NATMap 填写 $2
    + qb_web_port: qBittorrent Web 服务的端口，一般为 8080
    + qb_username: 用户名
    + qb_password: 密码

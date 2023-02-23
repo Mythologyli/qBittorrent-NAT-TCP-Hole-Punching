@@ -21,7 +21,7 @@ Use [Natter](https://github.com/MikeWang000000/Natter)/[NATMap](https://github.c
 3. Edit `update.sh`:
 
     + private_port: Natter fills in $3/NATMap fills in $4
-    + public_port: Natter fills in $4/NATMap fills in $5
+    + public_port: Natter fills in $5/NATMap fills in $2
     + qb_web_port: The port of qBittorrent web service, usually 8080
     + qb_username: username
     + qb_password: password
