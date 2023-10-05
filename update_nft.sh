@@ -30,7 +30,7 @@ if [ "$qb_ip_addr" = "" ];then
     # redirect the udp
     nft add rule inet qbit_redirect prerouting udp dport $private_port redirect to :$public_port
     # set the rules allow allow tcp and udp into the public_port
-    nft 'add chain inet qbit_redirect INPUT { type fliter hook input priority 0; policy drop;}'
+    nft 'add chain inet qbit_redirect INPUT { type filter hook input priority 0; policy drop;}'
     nft add rule inet qbit_redirect INPUT tcp dport $public_port accept
     nft add rule inet qbit_redirect INPUT udp dport $public_port accept
 else
