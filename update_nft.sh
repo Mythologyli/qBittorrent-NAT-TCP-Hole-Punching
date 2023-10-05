@@ -22,10 +22,9 @@ echo "Update nftables..."
 
 # Use nftables to forward traffic.
 if nft list tables | grep -q "qbit_redirect"; then
-    nft delete table qbit_redirect
+    nft delete table inet qbit_redirect
 fi
 
-nft delete table qbit_redirect
 nft add table inet qbit_redirect
 nft 'add chain inet qbit_redirect prerouting { type nat hook prerouting priority -100; }' 
 
