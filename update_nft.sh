@@ -23,7 +23,7 @@ echo "Update nftables..."
 # Use nftables to forward traffic.
 nft delete table qbit_redirect
 nft add table inet qbit_redirect
-nft 'add chain inet qbit_redirect prerouting { type disnat hook prerouting priority -100; }'
+nft 'add chain inet qbit_redirect prerouting { type nat hook prerouting priority -100; }'
 
 if [ "$qb_ip_addr" = "" ];then
     nft add rule inet qbit_redirect prerouting tcp dport $private_port redirect to :$public_port
