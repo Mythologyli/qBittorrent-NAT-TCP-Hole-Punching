@@ -21,14 +21,22 @@ curl -X POST -b "$qb_cookie" -d 'json={"listen_port":"'$public_port'"}' "$qb_add
 echo "Update nftables..."
 
 # Use nftables to forward traffic.
+if nft list tables | grep -q "qbit_redirect"; then
+    nft delete table qbit_redirect
+fi
+
 nft delete table qbit_redirect
-nft add table ip qbit_redirect
-nft 'add chain ip qbit_redirect prerouting { type nat hook prerouting priority 0; }'
+nft add table inet qbit_redirect
+nft 'add chain inet qbit_redirect prerouting { type nat hook prerouting priority -100; }' 
 
 if [ "$qb_ip_addr" = "" ];then
-    nft add rule ip qbit_redirect prerouting tcp dport $private_port redirect to :$public_port
+    nft add rule inet qbit_redirect prerouting tcp dport $private_port redirect to :$public_port
+    # redirect the udp
+    nft add rule inet qbit_redirect prerouting udp dport $private_port redirect to :$public_port
 else
-    nft add rule ip qbit_redirect prerouting tcp dport $private_port dnat to $qb_ip_addr:$public_port
+    nft add rule inet qbit_redirect prerouting tcp dport $private_port dnat to $qb_ip_addr:$public_port
+    # redirect the udp
+    nft add rule inet qbit_redirect prerouting udp dport $private_port dnat to $qb_ip_addr:$public_port
 fi
 
 echo "Done."
