@@ -24,7 +24,6 @@ echo "Update nftables..."
 if nft list tables | grep -q "qbit_redirect"; then
     nft delete table inet qbit_redirect
 fi
-
 nft add table inet qbit_redirect
 nft 'add chain inet qbit_redirect prerouting { type nat hook prerouting priority -100; }' 
 
