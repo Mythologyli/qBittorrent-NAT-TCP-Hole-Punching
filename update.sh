@@ -19,7 +19,9 @@ echo "Update iptables..."
 
 # Use iptables to forward traffic.
 LINE_NUMBER=$(iptables -t nat -nvL --line-number | grep ${private_port} | head -n 1 | grep -o '^[0-9]+')
-iptables -t nat -D PREROUTING $LINE_NUMBER
+if [ "${LINE_NUMBER}" != "" ]; then
+    iptables -t nat -D PREROUTING $LINE_NUMBER
+fi
 iptables -t nat -I PREROUTING -p tcp --dport $private_port -j REDIRECT --to-port $public_port
 
 echo "Done."
