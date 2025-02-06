@@ -26,9 +26,9 @@ Use [Natter](https://github.com/MikeWang000000/Natter)/[NATMap](https://github.c
     + qb_username: username
     + qb_password: password
 
-4. Take NATMap as an example, run `sudo ./natmap -s stunserver.stunprotocol.org -h bing.com -b 45678 -e ./update.sh`.
+4. Take NATMap as an example, run `sudo ./natmap -s stunserver2024.stunprotocol.org -h bing.com -b 45678 -e ./update.sh`.
 
-   Among them, `stunserver.stunprotocol.org` is the STUN server address, and `bing.com` is the public network HTTP server address, which is used to maintain the NAT mapping relationship and generally does not need to be modified. `45678` is any locally available port.
+   Among them, `stunserver2024.stunprotocol.org` is the STUN server address, and `bing.com` is the public network HTTP server address, which is used to maintain the NAT mapping relationship and generally does not need to be modified. `45678` is any locally available port.
 
 ## Thanks
 
