@@ -16,7 +16,7 @@ echo "Update qBittorrent listen port to $public_port..."
 
 # Update qBittorrent listen port.
 qb_cookie=$(curl -s -i --header "Referer: $qb_addr_url" --data "username=$qb_username&password=$qb_password" $qb_addr_url/api/v2/auth/login | grep -i set-cookie | cut -c13-48)
-curl -X POST -b "$qb_cookie" -d 'json={"listen_port":"'$public_port'"}' "$qb_addr_url/api/v2/app/setPreferences"
+curl -s -X POST -b "$qb_cookie" -d 'json={"listen_port":"'$public_port'"}' "$qb_addr_url/api/v2/app/setPreferences"
 
 echo "Update nftables..."
 
