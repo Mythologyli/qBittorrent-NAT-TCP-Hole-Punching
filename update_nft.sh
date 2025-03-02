@@ -5,9 +5,10 @@
 # Natter/NATMap
 private_port=$4 # Natter: $3; NATMap: $4
 public_port=$2 # Natter: $5; NATMap: $2
+protocol=$5 # Natter: $1; NATMap: $5
 
 # qBittorrent.
-qb_addr_url="http://localhost:8080" 
+qb_addr_url="http://localhost:8080"
 #qb_ip_addr="192.168.1.2" # Only needed when qbit runs on a different host
 qb_username="admin"
 qb_password="adminadmin"
@@ -25,16 +26,22 @@ if nft list tables | grep -q "qbit_redirect"; then
     nft delete table inet qbit_redirect
 fi
 nft add table inet qbit_redirect
-nft 'add chain inet qbit_redirect prerouting { type nat hook prerouting priority -100; }' 
+nft 'add chain inet qbit_redirect prerouting { type nat hook prerouting priority -100; }'
 
-if [ "$qb_ip_addr" = "" ];then
-    nft add rule inet qbit_redirect prerouting tcp dport $private_port redirect to :$public_port
-    # redirect the udp
-    nft add rule inet qbit_redirect prerouting udp dport $private_port redirect to :$public_port
-else
-    nft add rule inet qbit_redirect prerouting tcp dport $private_port dnat to $qb_ip_addr:$public_port
-    # redirect the udp
-    nft add rule inet qbit_redirect prerouting udp dport $private_port dnat to $qb_ip_addr:$public_port
+if [ "$protocol" = "tcp" ];then
+	if [ "$qb_ip_addr" = "" ];then
+		nft add rule inet qbit_redirect prerouting tcp dport $private_port redirect to :$public_port
+	else
+		nft add rule inet qbit_redirect prerouting tcp dport $private_port dnat ip to $qb_ip_addr:$public_port
+	fi
+fi
+
+if [ "$protocol" = "udp" ];then
+	if [ "$qb_ip_addr" = "" ];then
+		nft add rule inet qbit_redirect prerouting udp dport $private_port redirect to :$public_port
+	else
+		nft add rule inet qbit_redirect prerouting udp dport $private_port dnat ip to $qb_ip_addr:$public_port
+	fi
 fi
 
 echo "Done."
